@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+$refresh_meta
+<title>$title</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='3' cy='8' r='2.5' fill='%231a7f37'/%3E%3Ccircle cx='8' cy='8' r='2.5' fill='%230969da'/%3E%3Ccircle cx='13' cy='8' r='2.5' fill='%23cf222e'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<form method="get" action="/">
+  <header class="bar">
+    <h1><a href="/">Pipeline runs</a></h1>
+    <label class="field">Organization
+      <input name="org" value="$org" required spellcheck="false">
+    </label>
+    <label class="field">Project
+      <input name="project" value="$project" list="dl-project" required spellcheck="false">
+    </label>
+    <label class="field">Queued
+      <select name="window">$window_options</select>
+    </label>
+    <label class="check"><input type="checkbox" name="auto" value="1"$auto_checked> Auto-refresh every 30 s</label>
+    <span class="spacer"></span>
+    <span class="meta">$data_age</span>
+    <a class="button" href="$refresh_href">Reload from Azure DevOps</a>
+  </header>
+
+  <section class="filters">
+    <label class="field">Pipeline
+      <input name="pipeline" value="$f_pipeline" list="dl-pipeline" placeholder="name or folder" spellcheck="false">
+    </label>
+    <label class="field">Run
+      <input name="run" value="$f_run" placeholder="build number or id" spellcheck="false">
+    </label>
+    <label class="field">Requested by
+      <input name="by" value="$f_by" list="dl-by" placeholder="name or e-mail" spellcheck="false">
+    </label>
+    <label class="field field-commit">Commit
+      <input name="commit" value="$f_commit" placeholder="SHA prefix or message text" spellcheck="false">
+    </label>
+    <label class="field">Branch
+      <input name="branch" value="$f_branch" list="dl-branch" placeholder="branch or PR number" spellcheck="false">
+    </label>
+    <div class="actions">
+      <button type="submit">Apply</button>
+      <a href="$clear_href">Clear filters</a>
+    </div>
+    <fieldset class="chips">
+      <legend>State</legend>
+      $state_checks
+    </fieldset>
+    <fieldset class="chips">
+      <legend>Reason</legend>
+      $reason_checks
+    </fieldset>
+  </section>
+  <input type="hidden" name="sort" value="$sort_value">
+</form>
+
+<p class="hint">
+  Text filters ignore case. <code>a, b</code> matches either, and <code>-a</code> or <code>!a</code> excludes.
+  <b>Commit</b> matches the start of a SHA, including the commit pushed to a pull request, or any text in the commit message.
+  Click a column to sort by it. Use <b>+</b> to add a column as the next sort key.
+</p>
+
+$messages
+<p class="summary">$summary</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr>$head</tr></thead>
+  <tbody>
+$rows
+  </tbody>
+</table>
+</div>
+
+$datalists
+</body>
+</html>
