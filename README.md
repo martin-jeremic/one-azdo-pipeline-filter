@@ -7,6 +7,14 @@ filter.
 It is plain Python (standard library only, Python 3.11+) and plain HTML. There
 is no JavaScript and nothing to install.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/overview-dark.png">
+  <img alt="The runs page: filter fields and state and reason checkboxes with counts, a banner saying 3 runs are waiting for approval, and a table of runs with state, pipeline, run, commit, branch, reason, requested by, queued time and duration" src="docs/screenshots/overview.png">
+</picture>
+
+The screenshots show a made-up project. See
+[`docs/screenshots/make_screenshots.py`](docs/screenshots/make_screenshots.py).
+
 ## Run it
 
 ```powershell
@@ -84,6 +92,8 @@ reads the project's pending approvals, in one call, and marks their runs
 A banner above the table counts the waiting runs and links to a view of only
 those.
 
+![Three runs waiting for approval, at Deploy to QA for 13 minutes, Deploy to Staging for 37 minutes and Deploy to Production for 4 hours](docs/screenshots/waiting-for-approval.png)
+
 The stage names come from each run's timeline. An approval always belongs to
 the same stage, so these lookups are stored in
 `.cache/approval-stages.json` and are not repeated.
@@ -108,6 +118,8 @@ A short SHA from `git log` therefore finds these runs:
 On a row, hover over the commit and click **all runs** to see every run of that
 commit.
 
+![Commit filter 9f3c2e1: two pull request validation runs marked PR, two CI runs on develop and the deployment they triggered](docs/screenshots/commit-filter.png)
+
 The lookups are stored in `.cache/merge-commits.json`, so each merge commit is
 fetched only once. Commits never change, so the stored entries stay valid. The
 first load of a project with many PR runs takes a few seconds longer.
@@ -119,6 +131,8 @@ first load of a project with many PR runs takes a few seconds longer.
 - Click the small **+** next to a header to add that column as the next sort
   key. For example, sort by Pipeline, then **+** on Queued.
 - A numbered arrow (`▼2`) marks a secondary key. Click it to reverse that key.
+
+![Failed and partially succeeded runs of two pipeline folders, excluding the build service, sorted by pipeline and then by queued time](docs/screenshots/filters-and-sort.png)
 
 ## Refreshing
 
@@ -141,6 +155,7 @@ bookmarked or shared with someone who runs the app too.
 | `runs.py` | Normalising, filtering, sorting and URL state (no I/O) |
 | `page.py`, `templates/index.html`, `static/style.css` | The page |
 | `tests/` | Unit and HTTP tests, which never call Azure DevOps |
+| `docs/screenshots/` | The README screenshots, and the script that makes them from made-up data (needs Chrome or Edge, and Pillow) |
 
 Run the tests:
 
